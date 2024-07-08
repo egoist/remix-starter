@@ -4,6 +4,8 @@
 
 - [TRPC](https://trpc.io)
 - TailwindCSS and shadcn-ui
+- [Iconify Icons](https://github.com/egoist/tailwindcss-icons)
+- Docker support (you can also use Vercel, Cloudflare Pages and others)
 
 ## Development
 
