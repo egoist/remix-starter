@@ -1,48 +1,38 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { trpc } from "~/lib/trpc"
+import invariant from "~/server/invariant"
+import { createTrpcServer } from "~/server/trpc"
 
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
     { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+  ]
+}
+
+// Fetch data in the server loader
+// and pass fetched data to the client query as initialData
+// Remove it if you don't need to fetch data on the server
+export const loader = async (ctx: LoaderFunctionArgs) => {
+  invariant(ctx.response)
+
+  const trpcServer = createTrpcServer(ctx.request, ctx.response.headers)
+  const message = await trpcServer.hello()
+  return {
+    message,
+  }
+}
 
 export default function Index() {
+  const data = useLoaderData<typeof loader>()
+  const messageQuery = trpc.hello.useQuery(undefined, {
+    initialData: data.message,
+  })
+
   return (
-    <div className="font-sans p-4">
-      <h1 className="text-3xl">Welcome to Remix</h1>
-      <ul className="list-disc mt-4 pl-6 space-y-2">
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/start/quickstart"
-            rel="noreferrer"
-          >
-            5m Quick Start
-          </a>
-        </li>
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/start/tutorial"
-            rel="noreferrer"
-          >
-            30m Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/docs"
-            rel="noreferrer"
-          >
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div className="grid h-dvh place-items-center text-3xl">
+      <div>Hello {messageQuery.data}</div>
     </div>
-  );
+  )
 }
