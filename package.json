@@ -7,7 +7,8 @@
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "start": "remix-serve ./build/server/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "db-push": "drizzle-kit push"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.1",
@@ -22,12 +23,15 @@
     "@trpc/server": "11.0.0-rc.449",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.31.2",
     "isbot": "^4.1.0",
+    "pg": "^8.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.4.0",
     "tailwind-variants": "^0.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "ulidx": "^2.3.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -35,11 +39,13 @@
     "@iconify-json/mingcute": "^1.1.18",
     "@iconify-json/tabler": "^1.1.116",
     "@remix-run/dev": "^2.10.2",
+    "@types/pg": "^8.11.6",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
     "autoprefixer": "^10.4.19",
+    "drizzle-kit": "^0.22.8",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",

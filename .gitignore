@@ -3,3 +3,6 @@ node_modules
 /.cache
 /build
 .env
+.envrc
+*.log
+.DS_Store
