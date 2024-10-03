@@ -1,10 +1,5 @@
 import { QueryClient } from "@tanstack/react-query"
-import {
-  createTRPCReact,
-  unstable_httpBatchStreamLink as httpBatchStreamLink,
-  httpLink,
-  splitLink,
-} from "@trpc/react-query"
+import { createTRPCReact, httpLink } from "@trpc/react-query"
 import type { AppRouter } from "~/server/trpc"
 
 export const trpc = createTRPCReact<AppRouter>()
@@ -26,18 +21,8 @@ const baseUrl = "/api/trpc"
 export const createTrpcClient = () => {
   return trpc.createClient({
     links: [
-      splitLink({
-        condition(op) {
-          return op.type === "query"
-        },
-
-        true: httpBatchStreamLink({
-          url: baseUrl,
-        }),
-
-        false: httpLink({
-          url: baseUrl,
-        }),
+      httpLink({
+        url: baseUrl,
       }),
     ],
   })

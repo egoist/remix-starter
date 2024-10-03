@@ -1,7 +1,4 @@
-import {
-  unstable_defineLoader as defineLoader,
-  MetaFunction,
-} from "@remix-run/node"
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { trpc } from "~/lib/trpc"
 import { createTrpcServer } from "~/server/trpc"
@@ -13,16 +10,17 @@ export const meta: MetaFunction = () => {
   ]
 }
 
+// For demo purpose
 // Fetch data in the server loader
 // and pass fetched data to the client query as initialData
 // Remove it if you don't need to fetch data on the server
-export const loader = defineLoader(async (ctx) => {
-  const trpcServer = createTrpcServer(ctx.request, ctx.response.headers)
+export const loader = async (ctx: LoaderFunctionArgs) => {
+  const trpcServer = createTrpcServer(ctx.request)
   const message = await trpcServer.hello()
   return {
     message,
   }
-})
+}
 
 export default function Index() {
   const data = useLoaderData<typeof loader>()
